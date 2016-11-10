@@ -15,7 +15,7 @@ from django.views.generic import TemplateView, View
 from django.shortcuts import render, get_object_or_404
 
 from braces.views import LoginRequiredMixin
-from events.models import Event, Feedback
+from events.models import Event, Feedback, Bookmark
 
 from paypal.standard.forms import PayPalPaymentsForm
 
@@ -370,6 +370,19 @@ class FeedView(View):
 
     def get(self, *args, **kwargs):
         feed = Event.objects.all().order_by('-date_created')
+
+        # check for bookmark status of logged user and the event
+        for item in feed:
+            try:
+                bookmark_object = item.bookmark_set.get(event_title=item.id,
+                                                        user=self.request.user.id,
+                                                        active=True)
+
+                item.bookmarked = True
+                item.bookmark = bookmark_object
+            except Bookmark.DoesNotExist:
+                item.bookmarked = False
+
         return render(self.request, self.template_name, {'feed': feed})
 
 
@@ -418,3 +431,12 @@ class UserCategoryView(LoginRequiredMixin, TemplateView):
             user.save()
             return HttpResponseRedirect(reverse('dashboard'))
         return render(self.request, self.template_name, {'images':images,'message':message})
+
+class BookmarksView(LoginRequiredMixin, TemplateView):
+    """ Display events that the user bookmarked
+    """
+    template_name = 'accounts/bookmarks.html'
+
+    def get(self, *args, **kwargs):
+        bookmarks = Bookmark.objects.filter(user=self.request.user.id, active=True)
+        return render(self.request, self.template_name, {'bookmarks': bookmarks})
