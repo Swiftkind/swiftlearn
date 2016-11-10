@@ -6,7 +6,6 @@ $(function () {
         var data = $(this).serialize();
         $.post(url, data).done(function(response){
             $('#result').prepend(response);
-            location.reload();
             $('.form-comments').trigger("reset");
             data = {};
         });
@@ -14,7 +13,7 @@ $(function () {
     });
 
     //reply to a comment
-    $('.reply').on('click', function (e) {
+    $(document).on('click', '.reply', function (e) {
         e.preventDefault();
         var parent = $(this).parent(); 
 
@@ -28,7 +27,7 @@ $(function () {
 
             $.post(url, form).done(function (response) {
                 parent.find('.reply-list').append(response);
-                location.reload();
+                // location.reload();
                 $('.form-reply').trigger("reset");
                 data = {};
             });

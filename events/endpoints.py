@@ -32,5 +32,11 @@ urlpatterns = [
         'get': 'get_reply',
         'update': 'update_reply',
         'delete': 'delete_reply',
-    }), name="reply_update")
+    }), name="reply_update"),
+    url(r'^(?P<event_id>[0-9]+)/bookmarks/$', BookmarkAPI.as_view({
+        'get': 'create_bookmark',
+    }), name="bookmark_list"),
+    url(r'^(?P<event_id>[0-9]+)/bookmarks/(?P<bookmark_id>[0-9]+)/$', BookmarkAPI.as_view({
+        'get': 'remove_bookmark',
+    }), name="bookmark_remove"),
 ]
