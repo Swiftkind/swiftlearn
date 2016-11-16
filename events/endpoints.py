@@ -2,6 +2,9 @@ from django.conf.urls import url
 from .api import *
 
 urlpatterns = [
+    url(r'^user/$', UserEvents.as_view({
+        'get': 'list',
+    }), name="user_events_list"),
     url(r'^$', EventsAPI.as_view({
         'get': 'list',
         'post': 'create_event',

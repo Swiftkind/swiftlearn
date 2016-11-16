@@ -9,6 +9,16 @@ from .serializers import EventSerializer, EventCommentSerializer, FeedbackSerial
 from braces.views import LoginRequiredMixin
 
 
+class UserEvents(LoginRequiredMixin, ViewSet):
+    """Endpoint for user's event
+    """
+    def list(self, *args, **kwargs):
+        events = Event.objects.filter(is_finished=False, educator=self.request.user)
+        serializer = EventSerializer(events, many=True)
+
+        return Response(serializer.data, status=200)
+        
+
 class EventsAPI(LoginRequiredMixin, ViewSet):
     """ API endpoint for the list of events
     """

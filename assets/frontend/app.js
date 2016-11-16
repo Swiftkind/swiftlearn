@@ -39,9 +39,8 @@
         .state('settings',{
         	url: '/account/settings',
         	templateUrl: TEMPLATE_URL + '/profile/' + 'profile-settings.html',
-        	controller: function($scope){
-        		$scope.hello = 'hello'
-        	}        	
+        	controller: 'DashboardController',
+            controllerAs: 'ctrl'      	
         })
         .state('dashboard', {
             url: '/dashboard',
