@@ -3,8 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from .models import Event, EventComment, Feedback
-from .serializers import EventSerializer, EventCommentSerializer, FeedbackSerializer
+from .models import Event, EventComment, Feedback, Bookmark
+from .serializers import EventSerializer, EventCommentSerializer, FeedbackSerializer, BookmarkSerializer
+
 
 from braces.views import LoginRequiredMixin
 
@@ -171,4 +172,35 @@ class FeedbackAPI(LoginRequiredMixin, ViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+class BookmarkAPI(LoginRequiredMixin, ViewSet):
+    """ API endpoint for user bookmarks on specific events
+    """
+    serializer_class = BookmarkSerializer
+
+    def create_bookmark(self, request, **kwargs):
+        event_id = kwargs.get('event_id')
+
+        try:
+            # Check if bookmark already exists. if so, just change active status
+            bookmark = Bookmark.objects.get(user=self.request.user.id, event_title=event_id)
+            serializer = BookmarkSerializer(bookmark, data=dict(active=True), partial=True)
+        except Bookmark.DoesNotExist:
+            # Bookmark object is not yet created. Generate a new one
+            serializer = BookmarkSerializer(data=dict(
+                                            user=self.request.user.id,
+                                            event_title=event_id))
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+    def remove_bookmark(self, request, **kwargs):
+        bookmark = get_object_or_404(Bookmark, pk=kwargs.get('bookmark_id'))
+
+        serializer = BookmarkSerializer(bookmark, data=dict(active=False), partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
