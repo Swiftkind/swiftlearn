@@ -1,31 +1,58 @@
-<!-- profile name -->
-<div class="container" ng-controller="DashboardController">
-    <sl-user-fullname info="user"></sl-user-fullname>
-
-
-
-    <div class="col-md-6 col-lg-6 tutorial-feed">
-
-        <!-- search bar -->
-        <div class="row feed-header ">
-            <div class="col-md-12 col-lg-12">
-                <form id="search-form" >
-                    <div class="input-group">
-                        <span class="input-group-btn">
+<div class="page">
+    <div class="container">
+        <!-- profile name -->
+        <div class="row dashboard">
+        <dr-profile profile='ctrl.members[current_id]'></dr-profile>
+            
+            <div class="col-md-6 col-lg-6 tutorial-feed">
+                <div class="row feed-header ">
+                    <div class="col-md-12 col-lg-12">
+                        <form id="search-form">
+                            <div class="input-group">
+                                <span class="input-group-btn">
                             <button class="btn btn-default" type="submit" id="btn-search"><i class="fa fa-search" aria-hidden="true"></i></button>
                         </span>
-                        <input type="text" id="search" autocomplete="off" class="form-control" placeholder="Search a tutorial">
+                                <input type="text" id="search" autocomplete="off" class="form-control" placeholder="Search a tutorial">
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
+                <div class="item-container">
+                    <div ng-repeat="event in events">
+                        <div class="row items">
+                            <div class="col-md-3 col-lg-3 text-center item-picture">
+                                <img ng-src="/static/images/sass.png/">
+                                <a href="#"> View</a>
+                                <h5 class="going-count">
+                           <i class="fa fa-check" aria-hidden="true"></i> 0 Going
 
-        <!-- events feed -->
-        <div class="item-container">
-            <div ng-repeat="event in events">
-                <sl-event-feed-item event="event"></sl-event-feed-item>
+                        </h5>
+                            </div>
+                            <div class="col-md-9 col-lg-9 item-details">
+                                <h3 class="title">
+                            <a href="#">{{ event.title }}</a>
+                        </h3>
+                                <h5 class="date">
+
+                            {{ event.start_date| date: 'EEEE, dd MMM' }} - {{ event.start_time | date: format: timezone }}
+
+                        </h5>
+                                <h6 class="catergory">
+                            <a href="#">{{ event.tags }}</a>
+                        </h6>
+                                <p class="details">
+                                    {{ event.info }}
+                                </p>
+                                <div class="tutor">
+                                    <h6>
+                            <a href="">{{ ctrl.members[event.educator].email }}</a> - {{ ctrl.members[event.educator].city }}, {{ ctrl.members[event.educator].country }}  <a href="#">{{ event.date_created | date: 'mm:ss' : '+0800' }} ago</a>
+                        </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>

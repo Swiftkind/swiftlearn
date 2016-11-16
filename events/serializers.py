@@ -15,6 +15,7 @@ class EventSerializer(serializers.ModelSerializer):
                   'start_time',
                   'end_time',
                   'educator',
+                  'date_created'
                   )
 
 
