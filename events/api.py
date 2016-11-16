@@ -3,8 +3,10 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from .models import Event, EventComment, Feedback
 from .serializers import EventSerializer, EventCommentSerializer, FeedbackSerializer
+from .forms import EventCommentForm
 
 from braces.views import LoginRequiredMixin
 
@@ -61,6 +63,7 @@ class EventCommentsAPI(LoginRequiredMixin, ViewSet):
     """API endpoint for the list of comments for specific event
     """
     serializer_class = EventCommentSerializer
+    renderer_classes = (TemplateHTMLRenderer, JSONRenderer)
 
     def list(self, *args, **kwargs):
         event_id = kwargs.get('event_id')
@@ -78,8 +81,22 @@ class EventCommentsAPI(LoginRequiredMixin, ViewSet):
                                             event_title=event_id,
                                             user=self.request.user.id))
         if serializer.is_valid():            
-            serializer.save()
-            return Response(serializer.data, status=201)
+            saved_data = serializer.save()
+
+            # build comment dict to be used on the comment template
+            result_comment = {
+                'event': { 'id': event_id },
+                'comment': { 'id': saved_data.id },
+                'form': EventCommentForm(),
+                'profile': saved_data.user,
+                'message': {
+                    'message': saved_data.comment,
+                    'get_full_name': saved_data.user.get_full_name(),
+                    'message_date': saved_data.comment_date
+                }
+            }
+
+            return Response(result_comment, status=201, template_name='events/comment.html')
         return Response(serializer.errors, status=400)
 
     def get_comment(self, request, **kwargs):
@@ -105,6 +122,7 @@ class EventCommentReplyAPI(LoginRequiredMixin, ViewSet):
     """API endpoint for the list of replies for a specific comment
     """
     serializer_class = EventCommentSerializer
+    renderer_classes = (TemplateHTMLRenderer, JSONRenderer)
     
     def list(self, *args, **kwargs):
         event_id = kwargs.get('event_id')
@@ -125,8 +143,13 @@ class EventCommentReplyAPI(LoginRequiredMixin, ViewSet):
                                             user=self.request.user.id,
                                             parent=comment_id))
         if serializer.is_valid():            
-            serializer.save()
-            return Response(serializer.data, status=201)
+            saved_data = serializer.save()
+
+            # build comment dict to be used on the comment template
+            result_reply = {
+                'reply': saved_data,
+            }
+            return Response(result_reply, status=201, template_name='events/reply.html')
         return Response(serializer.errors, status=400)
 
     def get_reply(self, request, **kwargs):
