@@ -39,12 +39,22 @@
         $urlRouterProvider.otherwise('/dashboard');
 
         $stateProvider
-
+        .state('legacy', {
+        	abstract: true,
+        })
         .state('profile', {
             url: '/profile',
             templateUrl: TEMPLATE_URL +'/profile/'+'profile.html', 
-            controller: 'ProfileController'
+            controller: 'ProfileController',
+            controllerAs: 'ctrl'
 
+        })
+        .state('settings',{
+        	url: '/account/settings',
+        	templateUrl: TEMPLATE_URL + '/profile/' + 'profile-settings.html',
+        	controller: function($scope){
+        		$scope.hello = 'hello'
+        	}        	
         })
     }
 
