@@ -12,6 +12,12 @@
 
         self.ProfileServices = ProfileServices;
 
+
+        self.editProfile = editProfile;
+
+        function editProfile() {
+            console.log('asaasas');
+        }
         $scope.$watch(function() {
             return !ProfileServices.loading;
         }, function() {
@@ -47,5 +53,6 @@
             });
         }
     }
+
 
 })();
