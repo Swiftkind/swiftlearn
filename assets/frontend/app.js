@@ -26,19 +26,6 @@
         $urlRouterProvider.otherwise('/dashboard');
 
         $stateProvider
-
-        .state('dashboard', {
-            url: '/dashboard',
-            templateUrl: TEMPLATE_URL + 'dashboard.html', 
-            controller: 'DashboardController'
-
-        })
-    }
-
-    function routes($stateProvider, $urlRouterProvider, TEMPLATE_URL) {
-        $urlRouterProvider.otherwise('/dashboard');
-
-        $stateProvider
         .state('legacy', {
         	abstract: true,
         })
@@ -55,6 +42,12 @@
         	controller: function($scope){
         		$scope.hello = 'hello'
         	}        	
+        })
+        .state('dashboard', {
+            url: '/dashboard',
+            templateUrl: TEMPLATE_URL + 'dashboard.html', 
+            controller: 'DashboardController',
+            controllerAs: 'ctrl'
         })
     }
 

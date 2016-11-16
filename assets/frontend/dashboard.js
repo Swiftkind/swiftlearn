@@ -2,22 +2,28 @@
     angular
         .module('swiftlearn.dashboard', [
             'ui.bootstrap',
+            'swiftlearn.profile'
         ])
         .factory('EventServices', EventServices)
         .controller('DashboardController', DashboardController)
-        .directive('slUserFullname', slUserFullname)
-        .directive('slEventFeedItem', slEventFeedItem)
+        .directive('drProfile', drProfile)
+
 
     ;
 
-    function DashboardController($scope, EventServices) {
-
+    function DashboardController($scope, EventServices, ProfileServices, CURRENT_USER) {
+        var self = this;
+        $scope.members= [];
         $scope.events = [];
-        $scope.user = {
-            lastname: 'Bar',
-            firstname: 'Foo',
-            position: ''
-        };
+        $scope.current_id = CURRENT_USER.id;
+
+        $scope.$watch(function() {
+            return !ProfileServices.loading;
+        }, function() {
+            self.members = ProfileServices.members;
+            
+        });
+
 
         EventServices.list().then(function (response) {
             $scope.events = response.data;
@@ -33,27 +39,16 @@
     *               following the best practices from ng-docs
     *             https://docs.angularjs.org/guide/directive
     */
-
-    function slUserFullname() {
+    function drProfile(){
         return {
             restrict: 'E',
             scope: {
-                userInfo: '=info'
+                profile: '='
             },
-            templateUrl: '/static/frontend/templates/includes/user_fullname.html'
-        }
-    }
+            templateUrl: '/static/frontend/templates/includes/dr-profile.html'
+        };
 
-    function slEventFeedItem() {
-        return {
-            restrict: 'E',
-            scope: {
-                event: '=event'
-            },
-            templateUrl: '/static/frontend/templates/includes/event_feed_item.html'
-        }
     }
-
 
     /**
      * Services (Factory)
