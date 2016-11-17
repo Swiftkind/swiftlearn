@@ -1,0 +1,17 @@
+<div class="profile-status">
+    <label for=""> You're {{ progress.completion }}% closer to complete your profile </label>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" id="progressbar" aria-valuenow="{{ progress.completion }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress.completion }}%;">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-1">
+            <i class="fa fa-check-circle-o alert-info" aria-hidden="true"></i>
+        </div>
+        <div class="col-lg-10">
+            <p>
+    
+            </p>
+        </div>
+    </div>
+</div>

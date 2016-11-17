@@ -2,8 +2,11 @@
     <div class="container">
         <!-- profile name -->
         <div class="row dashboard">
-        <dr-profile profile='ctrl.members[current_id]'></dr-profile>
-            
+            <div class="col-md-4 col-lg-3 user-profile">
+                <dr-profile profile='ctrl.members[current_id]'></dr-profile>
+                <dr-progressbar progress='ctrl.members[current_id]'></dr-progressbar>
+                <dr-sidebar></dr-sidebar>
+            </div>
             <div class="col-md-6 col-lg-6 tutorial-feed">
                 <div class="row feed-header ">
                     <div class="col-md-12 col-lg-12">
@@ -30,7 +33,7 @@
                             </div>
                             <div class="col-md-9 col-lg-9 item-details">
                                 <h3 class="title">
-                            <a href="#">{{ event.title }}</a>
+                            <a href="#">{{ event.title | limitTo: 20 }}</a>
                         </h3>
                                 <h5 class="date">
 
@@ -41,11 +44,11 @@
                             <a href="#">{{ event.tags }}</a>
                         </h6>
                                 <p class="details">
-                                    {{ event.info }}
+                                    {{ event.info | limitTo: 60 }}
                                 </p>
                                 <div class="tutor">
                                     <h6>
-                            <a href="">{{ ctrl.members[event.educator].email }}</a> - {{ ctrl.members[event.educator].city }}, {{ ctrl.members[event.educator].country }}  <a href="#">{{ event.date_created | date: 'mm:ss' : '+0800' }} ago</a>
+                            <a href="">{{ ctrl.members[event.educator].first_name }} {{ ctrl.members[event.educator].last_name }}</a> - {{ ctrl.members[event.educator].city }}, {{ ctrl.members[event.educator].country }}  <a href="#">{{ event.date_created | date: 'hh:mm:ss' : '+0800' }} ago</a>
                         </h6>
                                 </div>
                             </div>
