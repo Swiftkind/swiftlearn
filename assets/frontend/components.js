@@ -10,7 +10,7 @@
 
     ;
 
-    function NavController($scope, ProfileServices, CURRENT_USER){
+    function NavController($scope, ProfileServices, CURRENT_USER) {
         var self = this;
 
         self.ProfileServices = ProfileServices;
@@ -22,10 +22,12 @@
         });
     }
 
-    function SideBarController($scope, SidebarServices, ProfileServices){
+    function SideBarController($scope, SidebarServices, ProfileServices) {
         var self = this;
         $scope.members = [];
         $scope.events = [];
+
+        self.ProfileServices = ProfileServices;
 
         $scope.$watch(function() {
             return !ProfileServices.loading;
@@ -34,11 +36,11 @@
 
         });
         SidebarServices.list().then(function(response) {
-                $scope.events = response.data;
+            $scope.events = response.data;
         });
     }
 
-    function SidebarServices($http, API_URL){
+    function SidebarServices($http, API_URL) {
         var service = {
             list: SidebarList
         };

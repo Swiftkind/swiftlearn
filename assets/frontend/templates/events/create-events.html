@@ -1,0 +1,75 @@
+<div class="page">
+    <div class="container">
+        <!-- profile name -->
+        <div class="row dashboard">
+            <div class="col-md-4 col-lg-3 user-profile">
+                <dr-profile profile='ctrl.members[current_id]'></dr-profile>
+                <dr-progressbar progress='ctrl.members[current_id]'></dr-progressbar>
+                <dr-sidebar></dr-sidebar>
+            </div>
+            <div class=" col-md-9 create-event">
+                <div>
+                    <h4 class="event-quote">
+              Please tell us the details of your event
+          </h4>
+                </div>
+                <form ng-submit="ctrl.create()">
+                    <div class="form-group">
+                        <label>Event Title</label>
+                         <input class="form-control event-title" cols="40" placeholder="Enter event title" rows="1" ng-model="form.title">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label>Description</label>
+                                <textarea class="form-control" cols="40"  placeholder="Description details" rows="8" ng-model="form.info"></textarea>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Fee</label>
+                                <input class="form-control price"  placeholder="$" type="number" ng-model="form.fee">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Select date</label>
+                                <input class="form-control" placeholder="Select date" type="date" ng-model="form.start_date">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Start time</label>
+                                <input class="form-control" placeholder="Start time" type="time" ng-model="form.start_time">
+                            </div>
+                            <div class="col-md-4">
+                                <label>End Time</label>
+                                <input class="form-control" placeholder="End time" type="time" ng-model="form.end_time">
+                            </div>
+                        </div>
+                        <div class="row bottom">
+                            <div class="col-md-8">
+                                <label>Categories</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control category" placeholder="Search for categories" aria-describedby="category">
+                                    <span class="input-group-addon category-btn" id="category"><span class="caret"></span></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Event URL</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control url" placeholder="file:///D:/work/swift%20tutorial/create-event.html?title=dasda" aria-describedby="category">
+                                    <span class="input-group-addon url-btn" id="category"><a href=""><i class="fa fa-link" aria-hidden="true"></i> copy link</a></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 col-md-offset-3">
+                                <div class="checkbox email-update">
+                                    <label>
+                                        <input type="checkbox" name="" class="">Send me email updates of this event</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button  type="submit" class="create-btn form-control"><i class="fa fa-check" aria-hidden="true"></i> CREATE EVENT</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

@@ -123,7 +123,7 @@ class EventCommentReplyAPI(LoginRequiredMixin, ViewSet):
         comment = get_object_or_404(EventComment, id=comment_id)
         comments = event.eventcomment_set.filter(parent=comment).order_by('-comment_date')
         serializer = EventCommentSerializer(comments, many=True)
-        return Response(serializer.data, status=204)
+        return Response(serializer.data, status=200)
 
     #create reply for the comment
     def create_reply(self, request, **kwargs):
@@ -168,7 +168,7 @@ class FeedbackAPI(LoginRequiredMixin, ViewSet):
         event = get_object_or_404(Event, id=event_id)
         feedbacks = Feedback.objects.filter(event_title=event)
         serializer = FeedbackSerializer(feedbacks, many=True)
-        return Response(serializer.data, status=204)
+        return Response(serializer.data, status=200)
 
     #create feedback for the event
     def create_feedback(self, request, **kwargs):
