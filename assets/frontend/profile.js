@@ -41,7 +41,6 @@
              */
             service.loading = true;
             return $http.get(API_URL + 'accounts/' + 'profiles/').then(function(response) {
-                console.log(response.data, 'data');
                 service.members = response.data.reduce(function(bucket, member) {
                     bucket[member.id] = member;
 

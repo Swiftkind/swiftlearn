@@ -1,7 +1,7 @@
 <div class="profile-status">
     <label for=""> You're {{ progress.completion }}% closer to complete your profile </label>
     <div class="progress">
-        <div class="progress-bar" role="progressbar" id="progressbar" aria-valuenow="{{ progress.completion }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress.completion }}%;">
+        <div class="progress-bar" role="progressbar" id="progressbar" aria-valuenow="{{ progress.completion }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress.completion.points }}%;">
         </div>
     </div>
     <div class="row">
@@ -10,7 +10,7 @@
         </div>
         <div class="col-lg-10">
             <p>
-    
+                {{ progress.completion.desc }}
             </p>
         </div>
     </div>

@@ -7,7 +7,8 @@
             'ui.router',
             'swiftlearn.profile',
             'swiftlearn.components',
-            'swiftlearn.dashboard'
+            'swiftlearn.dashboard',
+            'swiftlearn.events'
         ])
         .constant('TEMPLATE_URL', '/static/frontend/templates/')
         .constant('API_URL', '/api/')
@@ -46,6 +47,18 @@
             url: '/dashboard',
             templateUrl: TEMPLATE_URL + 'dashboard.html', 
             controller: 'DashboardController',
+            controllerAs: 'ctrl'
+        })
+        .state('event', {
+            url: '/events',
+            templateUrl: TEMPLATE_URL +'/events/'+ 'events.html', 
+            controller: 'DashboardController',
+            controllerAs: 'ctrl'
+        })
+        .state('create', {
+            url: '/events/create',
+            templateUrl: TEMPLATE_URL +'/events/'+ 'create-events.html', 
+            controller: 'EventController',
             controllerAs: 'ctrl'
         })
     }
